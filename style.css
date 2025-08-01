@@ -1,0 +1,496 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #d9c4a0;
+}
+
+p {
+  font-family: 'KalamRegular';
+}
+
+h1, h2 {
+  font-family: 'OldLondon';
+}
+
+h1, h2, h3, p, header, nav, footer {
+  text-align: center;
+}
+
+
+@font-face {
+	font-family: 'KalamRegular';
+	src: local('KalamRegular'), url('./fonts/KalamRegular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'ChelseaMarketRegular';
+  src: local('ChelseaMarketRegular'), url('./fonts/ChelseaMarketRegular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'OldLondon';
+  src: local('OldLondon'), url('./fonts/OldLondon.woff') format('woff');
+}
+
+.highlight {
+  color: red;
+}
+
+#introScreen {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  overflow: hidden;
+  text-align: center;
+  z-index: 100;
+  background-color: grey;
+}
+
+#introTrain {
+  width: 300px;
+  transition: transform 2s ease-in-out;
+}
+
+#introTitle {
+  font-size: 4rem;
+  font-weight: bold;
+  margin-top: 1rem;
+  font-family: 'OldLondon';
+}
+
+#introSubtext {
+  font-size: 2rem;
+  margin-top: 0.5rem;
+  font-family: 'ChelseaMarketRegular'
+}
+
+#introTitle, #introSubtext, #introTrain {
+  z-index: 2;
+}
+
+#introTitle, #introSubtext {
+  transition: opacity 0.5s ease-in-out;
+  color: #f1e8c7
+}
+
+/* Vignette Effect */
+.overlay {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0) 20%, rgba(0,0,0) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Hide intro screen after animation */
+#introScreen.fadeOut {
+  animation: fadeOut 1.5s forwards;
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+#returnHome {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+header {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 1;
+}
+
+header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  animation: backgroundFade 15s infinite;
+  opacity: 0.7; 
+}
+
+/* Fade between multiple background images */
+@keyframes backgroundFade {
+  0% { background-image: url('./images/trainimage1.jpg'); opacity: 1; }
+  33.33% { background-image: url('./images/trainimage2.jpg'); opacity: 1; }
+  66.66% { background-image: url('./images/trainimage3.jpg'); opacity: 1 }
+  100% { background-image: url('./images/trainimage1.jpg'); opacity: 1; }
+}
+
+/* #qrCodeImg {
+
+} */
+
+
+header h1 {
+  font-size: 8rem;
+  margin: 0;
+  color: #cd8d1b;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+  z-index: 1;
+}
+
+header h2 {
+  font-size: 4rem;
+  font-family: 'KalamRegular';
+  margin-top: 0.5rem;
+  font-style: italic;
+  color: #f1e8c7;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+  z-index: 1;
+}
+
+nav ul {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  list-style: none;
+  margin: 1rem 0;
+  flex-wrap: wrap;
+}
+
+nav ul li {
+  flex-shrink: 0;
+}
+
+nav ul li button {
+  padding: 1rem 2rem;
+  border: 3px solid #444;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #c2b280, #a38c59);
+  box-shadow: 
+    inset 0 0 5px #fff3, 
+    0 6px 0 #3e3e3e, 
+    0 6px 6px rgba(0, 0, 0, 0.6);
+  font-size: 0.9rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  max-width: 350px;
+}
+
+#hamIcon {
+  display: none;
+  background-color: #3a3a3a;
+  color: #f1f1f1;
+  border: 2px solid #888888;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  margin: 0 auto 1rem auto;
+  text-align: center;
+}
+
+#hamIcon:hover {
+  background-color: #555555;
+}
+
+.page {
+  background-image: url('./images/background.jpg');
+  background-repeat: repeat-y;
+  background-size: contain;
+  background-position: center;
+  color: #2e2e2e;
+  line-height: 1.6;
+  padding: 2rem 1.5rem;
+  min-height: 100vh;
+}
+
+.page h2 {
+  font-size: 6rem;
+  font-weight: bold;
+  color: #9a7b3b;
+  margin-bottom: 2rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
+  z-index: 1000;
+}
+
+#page0 {
+  color: #2c1b10; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#page0 main {
+  background: #f1e8c7e6; 
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+#page0 main img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 1.5rem;
+  border: 4px solid #a17c47;
+  border-radius: 8px;
+}
+
+#page0 main p {
+  font-size: 1.25rem;
+  line-height: 1.7;
+  margin: 0 auto;
+  color: #2b1d0e;
+  max-width: 800px;
+}
+
+.timeline-container {
+  position: relative;
+}
+
+
+footer {
+  padding: 0.5rem;
+  border-top: 2px solid #888;
+}
+
+footer h2 {
+  font-family: 'ChelseaMarketRegular';
+  font-size: 2rem;
+}
+
+footer p {
+  font-size: 1rem;
+  font-style: italic;
+}
+
+.timeline ul {
+  padding: 50px 0;
+}
+
+.timeline ul li {
+  list-style: none;
+  position: relative;
+  width: 6px;
+  margin: 0 auto;
+  padding-top: 50px;
+  background-color: #345c60;
+}
+
+.timeline time{
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 8px;
+  text-align: center;
+  font-weight: 200;
+}
+
+.timeline h3 {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.timeline time, .timeline h3 {
+  font-family: 'ChelseaMarketRegular';
+}
+
+.timeline ul li::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  transition: all 0.5s;
+  background-color: inherit;
+  z-index: 1;
+}
+
+.timeline ul li div {
+  position: relative;
+  bottom: 0;
+  width: 400px;
+  padding: 15px;
+  background-color: #f1e8c7e6;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+}
+
+.timeline ul li div p {
+  overflow-x: hidden;
+  text-align: left;
+}
+
+.timeline ul li:nth-child(odd) div {
+  left: 45px;
+  transform: translateX(400px);
+}
+
+.timeline ul li:nth-child(even) div {
+  left: calc(-400px - 45px + 6px);
+  transform: translateX(-400px);
+}
+
+.timeline ul li div.show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.carousel-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 40px auto;
+  gap: 40px;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.carousel-arrow {
+  font-size: 3rem;
+  cursor: pointer;
+  user-select: none;
+  color: black;
+  padding: 10px;
+  transition: transform 0.2s;
+}
+
+.carousel-arrow:hover {
+  transform: scale(1.2);
+}
+
+#mainTrainSprite {
+  width: 400px;
+  height: 200px;
+  background-image: url("images/iconicTrainSprites.png");
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  transition: background-position 0.5s ease;
+  margin: 0 auto;
+}
+
+.carousel-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+.train-info {
+  max-width: 700px;
+  margin: 10px auto;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  font-size: 1.2rem;
+  border: 4px solid #a17c47;
+  background: #f1e8c7e6; 
+}
+
+
+#game{
+  width: 300px;
+  height: 500px;
+  border: 1px solid black;
+  margin: auto;
+  background-image: url('./images/gameBackground.png');
+}
+
+#character {
+  width: 100px;
+  height: 100px;
+  background-image: url('./images/gameCharacter.png');
+  background-size: contain;
+  position: relative;
+  top: 300px;
+  left: 100px;
+}
+
+#obstacle{
+  width: 100px;
+  height: 100px;
+  background-image: url('./images/gameObstacle.png');
+  background-size: contain;
+  animation: slide 1s linear infinite;
+  position: relative;
+}
+
+@keyframes slide {
+  0% {
+    top: -100px;
+  }
+  100% {
+    top: 500px;
+  }
+}
+
+#buttons {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#buttons button {
+  padding: 10px 20px;
+  font-size: 18px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 800px){
+
+  nav ul {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  nav ul.menuShow {
+    display: flex;
+  }
+
+  nav ul li {
+    display: block;
+    text-align: center;
+  }
+
+  #hamIcon {
+    display: block;
+  }
+
+  .timeline ul li{
+    margin-left: 10px;
+  }
+
+  .timeline ul li div {
+    width: calc(100vw - 90px);
+  }
+  
+  .timeline ul li:nth-child(even) div {
+    left: 45px;
+  }
+
+  #qrCodeImg{
+  display: none;
+  }
+}

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Assignment 2</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js" defer></script>
+  </head>
+    <body>
+      <!-- Intro Screen -->
+      <div id="introScreen">
+        <div class="overlay"></div>
+          <img id="introTrain" src="./images/introtrain.png" alt="Train Front View">
+          <h1 id="introTitle">Step into the Age of Steam</h1>
+        <p id="introSubtext">Tap anywhere to begin your journey</p>
+      </div>
+     <header>
+      <h1>Steam Locomotives</h1>
+      <h2>Great Britain</h2>
+      <img id="qrCodeImg" src="qrcodeimg.png">
+     </header>
+       <nav> <!--menu system-->
+        <button id="hamIcon">Open Menu</button>
+        <ul id = "menuItemsList">
+            <li><button id="page1btn">History of Steam Locomotives</button></li>
+            <li><button id="page2btn">Iconic Locomotives</button></li>
+            <li><button id="page3btn">Railway Travels (Game)</button></li>
+        </ul>
+       </nav>
+
+
+        <main id="pagecontainer">
+            <section class="page" id="page0">
+              <h2>
+                What is a Steam Locomotive?
+              </h2>
+              <main>
+                <img src="images/trainExample.png" alt="Train Blueprint" title="">
+                <p>
+                  A steam locomotive is a self-propelled vehicle, primarily used to pull unpowered cars hauling passengers or goods along tracks made of iron or steel rails. 
+                  At its core, a steam locomotive is powered by boiling water to create steam. 
+                  This steam builds pressure and is directed into cylinders, where it pushes pistons back and forth. 
+                  These pistons are connected to the train's driving wheels, converting steam pressure into motion. <br>
+                </p>
+                <h3>
+                  The Process of Building Steam
+                </h3>
+                <p>
+                   1. Fuel (usually coal) is burned in a firebox. <br>
+                   2. This heats water in a boiler, producing steam. <br>
+                   3. The steam travels through pipes to the cylinders. <br>
+                   4. Inside the cylinders, steam pushes the pistons. <br>
+                   5. The pistons drive rods that turn the wheels. <br>
+                   6. Spent steam escapes through the chimney, creating the classic “chuff-chuff” sound. <br>
+                </p>
+              </main>
+            </section>
+            <section class = 'page' id = 'page1'>
+              <div class="timeline-container">
+              <h2>On The Right Track (1804-1899) </h2>
+              <section class = 'timeline'>
+                <ul>
+                  <li>
+                    <div>
+                      <h3>
+                        Richard Trevithink & Pen-y-darren
+                      </h3>
+                      <p>
+                        <time>February 21st 1804</time>In 1804, Trevithick built a steam locomotive for the Penydarren Ironworks in South Wales. 
+                        It was designed to haul iron and passengers along a tramroad between Merthyr Tydfil and Abercynon. <br> <br> The result? 
+                        A steam locomotive that pulled 10 tons of iron, 70 passengers and 5 wagons. It ran over 14 kilometres at an average speed of 8km/h. 
+                        All on its first run. <br> <br> This run was revolutionary for the future of steam locomotives, as it proved that Steam locomotion on rails was possible. <br> <br>
+                        Ultimately, Trevithick's design for Penydarren never made to commercial use. It was too heavy for the cast-iron rails at the time, which made the rails break often. 
+                        Furthermore, his ideas were so advanced for its time that the engine was hard to maintain, and not very cost-effective. 
+                      </p>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <h3>
+                        George Stephenson's Rocket and The Rainhill Trials
+                      </h3>
+                      <p>
+                        <time>October 6th to October 14th 1829</time> The Rainhill trials were a competition run from 6 to 14 October 1829, 
+                        to test George Stephenson's argument that locomotives would have the best motive power for the nearly-completed Liverpool and Manchester Railway (L&MR) (The 1st fully operational passenger railway). <br> <br>
+                        Rocket was Stephenson's entry - and it blew the competition away. It reached unbelievable speeds (for the time) of 48km/h, and was the only of the 5 competitors to complete the 1 mile (1.6km) trial, making it the winner. <br> <br>
+                        The directors of the L&MR accepted that locomotives should operate services on their new line, and George and Robert Stephenson were given the contract to produce locomotives for the railway.
+                      </p>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <h3>
+                        Rocket's Impact
+                      </h3>
+                      <p>
+                        <time>October 1829</time> Rocket may not have been the first steam locomotive ever designed, yet it set the stage for what would be the blueprint for steam engines over the next century. <br> <br>
+                        It had a multi-tube boiler for improved heat transfer, and hence faster steam production, a lightweight design to make it faster and lessen the damage to the tracks, and pioneered the idea of different wheel arrangements for different locomotives tasks (cargo/passengers). <br> <br>
+                        Wheel Arrangements are listed as Leading-Driver-Trailing wheels. So a 0-2-2 means the locomotive had 0 leading wheels, 2 driving wheels and 2 trailing wheels.
+                      </p>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <h3>
+                        Expansion of Railways
+                      </h3>
+                      <p>
+                        <time>1830s - 1900s</time> After Stephenson's Rocket proved steam locomotives were fast and reliable, Britain entered a railway boom. Between the 1830s and late 1800s, over 6,000 miles of track were laid, connecting major cities, towns, and even remote areas. Engineers overcame rivers, hills, and urban obstacles to expand the network. <br> <br>
+                        The Liverpool and Manchester Railway (1830) was the first to carry both passengers and freight on a full timetable. Key routes soon followed, including the London-Birmingham line (1838) and the Great Western Railway (from 1833, led by Isambard Kingdom Brunel). <br> <br>
+                        Railways revolutionized society. Factories shipped goods faster, fresh food reached cities, and mail delivery improved. For the first time, people could commute for work and leisure, giving rise to new towns, industries, and jobs.
+                      </p>
+                    </div>
+                  </li>
+                </ul>
+              </section>
+
+              <h2>Full Steam Ahead (1923 - 1948)</h2>
+              <section class = 'timeline'>
+                <ul>
+                  <li>
+                    <div>
+                      <h3>
+                        The Big Four
+                      </h3>
+                      <p>
+                        <time>January 1st 1923</time> The "Big Four" was a name used to describe the four largest railway companies in the United Kingdom between 1923-1947. 
+                        The name was coined by The Railway Magazine in its issue of February 1923: "The Big Four of the New Railway Era". <br><br>
+
+                        The Big Four were: <br>
+                        Great Western Railway (GWR) <br>
+                        London, Midland and Scottish Railway (LMS) <br>
+                        London and North Eastern Railway (LNER) <br>
+                        Southern Railway (SR) <br> <br>
+                        
+                        The companies were formed as a result of the Railways Act 1921, in a process known as "The Grouping" (of the railways), 
+                        which came into effect on 1 January 1923. <br> <br>
+                        
+                        Each company operated a number of lines jointly with one or more of the others, 
+                        a situation which arose when the former joint owners of a route were placed into different post-grouping companies. 
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <h3>
+                        Steam at its Prime
+                      </h3>
+                      <p>
+                        <time>1930s</time> By the 1930s, steam trains were at the heart of British daily life. They moved workers, schoolchildren, and holidaymakers, and delivered everything from mail to milk. 
+                        Stations bustled, towns grew around junctions, and named trains like the Flying Scotsman became household names. <br><br>
+                        At the same time, engineering reached new heights. Trains became faster, sleeker, and more efficient. Streamlined shapes improved aerodynamics. Interiors became more comfortable. 
+                        Designers like Gresley, Stanier, and Bulleid pushed innovation forward.
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <h3>
+                        Riding into War
+                      </h3>
+                      <p>
+                        <time>1940s</time> During both World Wars, steam locomotives became the lifeblood of the home front and the battlefield. They transported troops, weapons, medical supplies, and food across the country. <br><br>
+                        Many trains lost their iconic liveries to avoid detection from air raids. Entire schedules were rewritten to prioritize military needs, with railways running nearly non-stop. <br><br>
+                        In World War II alone, British trains hauled over a million troops and countless tons of equipment.  
+                      </p>
+                    </div>
+                  </li>
+                </ul>
+              </section>
+
+              <h2>An Era Derailed (1948 - Present)</h2>
+              <section class = 'timeline'>
+                <ul>
+                  <li>
+                    <div>
+                      <h3>
+                        The Decline of Steam
+                      </h3>
+                      <p>
+                        <time>>1948</time> After World War II, Britain's steam railway system faced growing pressure. Steam locomotives, while powerful, were expensive to maintain, required large crews, and relied heavily on coal and water. 
+                        In contrast, diesel and electric trains were cleaner, cheaper, and easier to operate. 
+                      </p>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <h3>
+                        Dieselisation and The Beeching Cuts
+                      </h3>
+                      <p>
+                        <time>1950s</time> By the late 1950s, British Rail began phasing out steam in favour of diesel locomotives across much of the country. 
+                        The shift wasn't just about technology,  it was also about cost-cutting. <br> <br> 
+                        In 1963, the government published the Beeching Report, which led to widespread closures of unprofitable rail lines and rural stations. 
+                        Known as the Beeching Cuts, these changes resulted in the loss of over 5,000 miles of track and thousands of jobs. <br> <br>
+                        What followed was a rapid dismantling of the steam era, with engines being scrapped in huge numbers. By 1968, steam locomotives had disappeared from regular British Rail service.
+                      </p>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <h3>
+                        The Fifteen Guinea Special
+                      </h3>
+                      <p>
+                        <time>August 11th 1968</time> The age of steam officially came to a close on Britain's mainline railways with the final scheduled service - a train known as the <span class='highlight'>Fifteen Guinea Special</span>. 
+                        Departing from Liverpool and traveling through Manchester and Carlisle before returning to Manchester, this special rail tour was hauled by four iconic steam locomotives. This marked the end of their official use on British Rail 
+                      </p>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <h3>
+                        Saving Steam
+                      </h3>
+                      <p>
+                        <time>Late 1960s</time> As steam locomotives vanished from British Railways in the 1960s, enthusiasts and volunteers began working to save what they could. 
+                        Many iconic engines faced the scrapyard, but determined railway lovers launched a nationwide effort to preserve and restore them. <br><br>
+                        This gave birth to Britain's heritage railway movement. Lines like the Bluebell Railway, Talyllyn Railway, and Severn Valley Railway were reopened by volunteers, often using salvaged track and carriages. 
+                        These groups rescued engines from scrap dealers, restored them in sheds and workshops, and ran them for the public once more. <br><br>
+                        The movement wasn't just about the nostalgia, it was about preserving engineering history, building community pride, and letting future generations experience the sight, sound, and smell of steam. 
+                        Today, hundreds of locomotives have been saved thanks to these efforts, many fully operational and hauling passengers again.
+                      </p>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <h3>
+                        Steam Lives On
+                      </h3>
+                      <p>
+                        <time>Present</time> Though steam locomotives disappeared from Britain's mainline railways in 1968, they remain a cherished part of the nation's heritage. 
+                        Today, steam lives on through heritage railways, museums, and special mainline excursions that keep the experience alive for new generations. <br><br>
+                        Engines like the Flying Scotsman still draw crowds wherever they go, while museums such as the National Railway Museum in York house preserved locomotives for visitors to explore. 
+                        From children's books and model trains to anniversary tours and televised documentaries, steam still holds its place as a cultural icon in British history.
+                      </p>
+                    </div>
+                  </li>
+                </ul>
+              </section>
+              </div>
+            </section>
+            <section class = 'page' id = 'page2'>
+              <h2>Iconic Locomotives</h2>
+              <div class="carousel-container">
+                <div class="carousel-arrow" id="prev">&#10094;</div>
+                <div class="carousel-main">
+                  <div id="mainTrainSprite"></div>
+                </div>
+                <div class="carousel-arrow" id="next">&#10095;</div>
+              </div>
+              <div class="train-info">
+                <p><strong>Name:</strong> <span id="trainName"></span></p>
+                <p><strong>Class:</strong> <span id="trainClass"></span></p>
+                <p><strong>Built:</strong> <span id="trainBuilt"></span></p>
+                <p><strong>Designer:</strong> <span id="trainDesigner"></span></p>
+                <p id="trainDescription"></p>
+              </div>
+            </section>
+            <section class = 'page' id = 'page3'>
+              <div id="game">
+                <div id="obstacle"></div>
+                <div id="character"></div>
+              </div>
+              <div id="buttons">
+                <button id="moveLeftBtn">◀ Move Left</button>
+                <button id="moveRightBtn">Move Right ▶</button>
+                <div>
+                  <button id="restartBtn">Restart</button>
+                </div>
+              </div>
+            </section>
+        </main>
+    </body>
+    <footer>
+      <h2>Fun Facts</h2>
+      <p id = 'funfacts'></p>
+    </footer>
+
+</html>
