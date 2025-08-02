@@ -267,8 +267,8 @@ var timelineBlocks = document.querySelectorAll('.timeline ul li div');
 
 // Go through each block and tell the observer to watch it
 for (var j = 0; j < timelineBlocks.length; j++) {
-  var block = timelineBlocks[j];
-  observer.observe(block);
+  var tBlock = timelineBlocks[j];
+  observer.observe(tBlock);
 }
 
 
