@@ -18,7 +18,7 @@ h1, h2 {
   font-family: 'OldLondon';
 }
 
-h1, h2, h3, p, header, nav, footer {
+h1, h2, h3, h4, p, header, nav, footer {
   text-align: center;
 }
 
@@ -43,7 +43,7 @@ h1, h2, h3, p, header, nav, footer {
 }
 
 #introScreen {
-  position: fixed;
+  position: fixed; /* Makes sure the overlay covers the entire screen */
   width: 100%;
   height: 100%;
   display: flex;
@@ -52,8 +52,8 @@ h1, h2, h3, p, header, nav, footer {
   flex-direction: column;
   overflow: hidden;
   text-align: center;
-  z-index: 100;
-  background-color: grey;
+  z-index: 100; /* Makes sure that the intro is the front-most thing */
+  background-color: grey; /* Covers up the actual website behind it */
 }
 
 #introTrain {
@@ -62,7 +62,7 @@ h1, h2, h3, p, header, nav, footer {
 }
 
 #introTitle {
-  font-size: 4rem;
+  font-size: 3rem;
   font-weight: bold;
   margin-top: 1rem;
   font-family: 'OldLondon';
@@ -85,11 +85,11 @@ h1, h2, h3, p, header, nav, footer {
 
 /* Vignette Effect */
 .overlay {
-  content: "";
+  content: ""; /* Since there isn't any actual content, an empty string is inserted so the element can still exist */
   position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
+  inset: 0; /* Covers the entirety of the parent */
   background: radial-gradient(ellipse at center, rgba(0,0,0,0) 20%, rgba(0,0,0) 100%);
-  pointer-events: none;
+  pointer-events: none; /* Prevents any accidental clicking on the website behind it */
   z-index: 1;
 }
 
@@ -105,12 +105,6 @@ h1, h2, h3, p, header, nav, footer {
   }
 }
 
-#returnHome {
-  text-decoration: none;
-  color: inherit;
-  cursor: pointer;
-}
-
 header {
   position: relative;
   height: 100vh;
@@ -121,14 +115,14 @@ header {
   z-index: 1;
 }
 
-header::before {
+header::before { /* The cyclig train background */
   content: "";
   position: absolute;
   inset: 0;
   z-index: 0;
   background-size: cover;
   background-position: center;
-  animation: backgroundFade 15s infinite;
+  animation: backgroundFade 15s infinite; /* Infinite animation */
   opacity: 0.7; 
 }
 
@@ -139,10 +133,6 @@ header::before {
   66.66% { background-image: url('./images/trainimage3.jpg'); opacity: 1 }
   100% { background-image: url('./images/trainimage1.jpg'); opacity: 1; }
 }
-
-/* #qrCodeImg {
-
-} */
 
 
 header h1 {
@@ -167,22 +157,22 @@ nav ul {
   display: flex;
   justify-content: center;
   gap: 1rem;
-  list-style: none;
+  list-style: none; /* Removes the bullet points */
   margin: 1rem 0;
   flex-wrap: wrap;
 }
 
 nav ul li {
-  flex-shrink: 0;
+  flex-shrink: 0; /* Prevents the items from shrinking */
 }
 
-nav ul li button {
+nav ul li button, .fullscreen-controls button {
   padding: 1rem 2rem;
   border: 3px solid #444;
   border-radius: 12px;
-  background: linear-gradient(145deg, #c2b280, #a38c59);
+  background: linear-gradient(145deg, #c2b280, #a38c59); /* Diagonal gold gradient */
   box-shadow: 
-    inset 0 0 5px #fff3, 
+    inset 0 0 5px #fff3,
     0 6px 0 #3e3e3e, 
     0 6px 6px rgba(0, 0, 0, 0.6);
   font-size: 0.9rem;
@@ -207,13 +197,32 @@ nav ul li button {
   text-align: center;
 }
 
+.fullscreen-controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.fullscreen-controls button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
 #hamIcon:hover {
   background-color: #555555;
 }
 
+#page0btn {
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
 .page {
   background-image: url('./images/background.jpg');
-  background-repeat: repeat-y;
+  background-repeat: repeat-y; /* Repeats the background along the y-axis to prevent it from being stretched */
   background-size: contain;
   background-position: center;
   color: #2e2e2e;
@@ -238,7 +247,7 @@ nav ul li button {
   align-items: center;
 }
 
-#page0 main {
+#page0 div {
   background: #f1e8c7e6; 
   padding: 2rem;
   border-radius: 12px;
@@ -248,7 +257,7 @@ nav ul li button {
   margin: 0 auto;
 }
 
-#page0 main img {
+#page0 div img {
   max-width: 100%;
   height: auto;
   margin-bottom: 1.5rem;
@@ -256,7 +265,7 @@ nav ul li button {
   border-radius: 8px;
 }
 
-#page0 main p {
+#page0 div p {
   font-size: 1.25rem;
   line-height: 1.7;
   margin: 0 auto;
@@ -265,23 +274,7 @@ nav ul li button {
 }
 
 .timeline-container {
-  position: relative;
-}
-
-
-footer {
-  padding: 0.5rem;
-  border-top: 2px solid #888;
-}
-
-footer h2 {
-  font-family: 'ChelseaMarketRegular';
-  font-size: 2rem;
-}
-
-footer p {
-  font-size: 1rem;
-  font-style: italic;
+  position: relative; /* Allows position: absolute child elements to be positioned relative to the container */
 }
 
 .timeline ul {
@@ -291,18 +284,10 @@ footer p {
 .timeline ul li {
   list-style: none;
   position: relative;
-  width: 6px;
+  width: 6px; /* The line in the center, the spine of the timeline */
   margin: 0 auto;
   padding-top: 50px;
   background-color: #345c60;
-}
-
-.timeline time{
-  display: block;
-  font-size: 1rem;
-  margin-bottom: 8px;
-  text-align: center;
-  font-weight: 200;
 }
 
 .timeline h3 {
@@ -310,21 +295,26 @@ footer p {
   font-size: 1.5rem;
 }
 
+.timeline h4 {
+  font-weight: 300;
+  font-size: 1rem;
+}
+
 .timeline time, .timeline h3 {
   font-family: 'ChelseaMarketRegular';
 }
 
-.timeline ul li::after {
+.timeline ul li::after { /* The center dot marking an event */
   content: "";
   position: absolute;
   left: 50%;
   bottom: 0;
-  transform: translateX(-50%);
+  transform: translateX(-50%); /* Centered horizontally */
   width: 30px;
   height: 30px;
-  border-radius: 50%;
+  border-radius: 50%; /* Makes it a circle */
   transition: all 0.5s;
-  background-color: inherit;
+  background-color: inherit; /* Inherits it from the parent: li */
   z-index: 1;
 }
 
@@ -345,16 +335,19 @@ footer p {
 
 .timeline ul li:nth-child(odd) div {
   left: 45px;
-  transform: translateX(400px);
+  transform: translateX(400px); /* Positions it 400px off to the right */
+  opacity: 0;
 }
 
 .timeline ul li:nth-child(even) div {
-  left: calc(-400px - 45px + 6px);
-  transform: translateX(-400px);
+  left: calc(-400px - 45px + 6px); 
+  /* -400px (box width) - 45px (gap from center) + 6px (half of timeline width for alignment) */
+  transform: translateX(-400px); /* Positions it 400px off to the left */
+  opacity: 0;
 }
 
 .timeline ul li div.show {
-  transform: translateX(0);
+  transform: translateX(0); /* Reveal animation */
   opacity: 1;
 }
 
@@ -364,13 +357,12 @@ footer p {
   justify-content: center;
   margin: 40px auto;
   gap: 40px;
-  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 .carousel-arrow {
   font-size: 3rem;
   cursor: pointer;
-  user-select: none;
+  user-select: none; /* Prevents selection when double-clicking */
   color: black;
   padding: 10px;
   transition: transform 0.2s;
@@ -381,7 +373,7 @@ footer p {
 }
 
 #mainTrainSprite {
-  width: 400px;
+  width: 400px; /* Size of each sprite to be displayed */
   height: 200px;
   background-image: url("images/iconicTrainSprites.png");
   background-repeat: no-repeat;
@@ -409,7 +401,7 @@ footer p {
 
 
 #game{
-  width: 300px;
+  width: 300px; /* Area of the game space */
   height: 500px;
   border: 1px solid black;
   margin: auto;
@@ -437,10 +429,10 @@ footer p {
 
 @keyframes slide {
   0% {
-    top: -100px;
+    top: -100px; /* Starts above the playing area */
   }
   100% {
-    top: 500px;
+    top: 500px; /* Stops once it hits the bottom of the playing area */
   }
 }
 
@@ -456,7 +448,63 @@ footer p {
   cursor: pointer;
 }
 
+
+footer {
+  padding: 0.5rem;
+  border-top: 2px solid #888;
+}
+
+footer h2 {
+  font-family: 'ChelseaMarketRegular';
+  font-size: 2rem;
+}
+
+footer p {
+  font-size: 1rem;
+  font-style: italic;
+}
+
+.qrCode-container {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.qrCode {
+  width: 150px;
+  height: auto;
+  transition: opacity 0.3s ease;
+}
+
+.qrCaption {
+  font-size: 0.9rem;
+  color: #444;
+}
+
 @media screen and (max-width: 800px){
+
+  header {
+    height: 75vh;
+  }
+
+  header::before {
+    background-size: contain; /* prevents stretching */
+    background-position: center top;
+    background-repeat: no-repeat;
+  }
+
+  header h1,
+  header h2 {
+    font-size: 3rem;
+    z-index: 1;
+  }
+
+  header h2 {
+    font-size: 2rem;
+  }
+
+  .page h2 {
+    font-size: 3rem;
+  }
 
   nav ul {
     display: none;
@@ -490,7 +538,23 @@ footer p {
     left: 45px;
   }
 
-  #qrCodeImg{
+  .qrCode-container{ /* Removes the QR segment if the screen is on mobile view */
   display: none;
+  }
+
+  .carousel-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .carousel-arrow {
+    position: static;
+    font-size: 2rem;
+    margin: 1rem;
+  }
+
+  .carousel-main img {
+    max-width: 90%;
+    height: auto;
   }
 }
