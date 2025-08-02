@@ -17,8 +17,9 @@ hideall();
 let onepage=document.querySelector("#page"+pgno);
 onepage.style.display="block"; //show the page
 }
+
 /* Listen for clicks on the buttons, assign anonymous eventhandler functions to call show function */
-/* page0btn.addEventListener("click", function () { show(0);}); */
+page0btn.addEventListener("click", function () { show(0);});
 page1btn.addEventListener("click", function () { show(1);});
 page2btn.addEventListener("click", function () { show(2);});
 page3btn.addEventListener("click", function () { show(3);});
@@ -55,6 +56,7 @@ function startIntroSequence() {
   var introScreen = document.getElementById("introScreen");
   var introTrain = document.getElementById("introTrain");
 
+   // When the user clicks the intro screen, trigger the intro animation  
   introScreen.addEventListener("click", function () {
     playIntroAnimation(introTrain, introScreen);
   });
@@ -64,6 +66,7 @@ function playIntroAnimation(trainElement, screenElement) {
   // Scale up the train image
   trainElement.style.transform = "scale(5)";
 
+  // Hide the title and subtitle text by fading them out
   document.getElementById("introTitle").style.opacity = 0;
   document.getElementById("introSubtext").style.opacity = 0;
 
@@ -88,18 +91,18 @@ funFacts[5] = "The Hogwarts Express in Harry Potter is pulled by a real steam en
 funFacts[6] = "The Talyllyn Railway in Wales was the world's first preserved railway run by volunteers.";
 
 let currentFactIndex = 0;
-const factElement = document.getElementById("funfacts");
+const factElement = document.getElementById("funfacts"); // Gets the element where the fun fact will be displayed
 
 function showFunFact() {
-  factElement.innerHTML = funFacts[currentFactIndex];
-  currentFactIndex = (currentFactIndex + 1) % funFacts.length;
+  factElement.innerHTML = funFacts[currentFactIndex]; // Set the inner HTML to the current fact
+  currentFactIndex = (currentFactIndex + 1) % funFacts.length; // Move to the next fact, loop back to 0 at the end
 }
 
 showFunFact();
 setInterval(showFunFact, 30000); 
 
 
-// Train Image Carousel
+// Iconic Train Info
 const trains = [
   {
     spriteIndex: 0,
@@ -131,16 +134,15 @@ const trains = [
 ];
 
 let currentTrainIndex = 0;
-const spriteWidth = 400;
-const spriteHeight = 200;
+const spriteWidth = 400; // How much of the sprite sheet is displayed
 
 function updateTrainDisplay() {
   const train = trains[currentTrainIndex];
   const sprite = document.getElementById("mainTrainSprite");
 
   // Move to the correct position in the sprite sheet
-  const positionX = -train.spriteIndex * spriteWidth;
-  sprite.style.backgroundPosition = `${positionX}px 0`;
+  const positionX = -train.spriteIndex * spriteWidth; // ' - ' so the sprite moves to the left instead of the right
+  sprite.style.backgroundPosition = positionX + "px 0";
 
   // Update text content
   document.getElementById("trainName").innerHTML = train.name;
@@ -155,6 +157,7 @@ function prevTrainDisplay() {
   updateTrainDisplay();
 
   const itWhistle = new Audio(trains[currentTrainIndex].sound);
+  itWhistle.volume = 0.3;
   itWhistle.play();
 }
 
@@ -163,6 +166,7 @@ function nextTrainDisplay() {
   updateTrainDisplay();
 
   const itWhistle = new Audio(trains[currentTrainIndex].sound);
+  itWhistle.volume = 0.3;
   itWhistle.play();
 }
 
@@ -202,21 +206,25 @@ moveRightBtn.addEventListener("click", moveRight);
 
 var block = document.getElementById("obstacle");
 
-block.addEventListener("animationiteration", () => {
-    var random = Math.floor(Math.random() * 3);
-    left = random * 100;
+function randomizeBlockPosition() {
+    var random = Math.floor(Math.random() * 3); // Random value: 0, 1, or 2
+    var left = random * 100; // Positions: 0px, 100px, or 200px
     block.style.left = left + "px";
-});
+}
 
-setInterval(function () {
-    var characterLeft = parseInt(window.getComputedStyle(character).getPropertyValue("left"));
-    var blockLeft = parseInt(window.getComputedStyle(block).getPropertyValue("left"));
-    var blockTop = parseInt(window.getComputedStyle(block).getPropertyValue("top"));
+block.addEventListener("animationiteration", randomizeBlockPosition);
 
-    if (characterLeft == blockLeft && blockTop < 500 && blockTop > 300) {
-        block.style.animation = "none";
+function checkCollision() {
+    var characterLeft = parseInt(window.getComputedStyle(character).getPropertyValue("left")); // Get the current left position of the character
+    var blockLeft = parseInt(window.getComputedStyle(block).getPropertyValue("left")); // Get the current left position of the block
+    var blockTop = parseInt(window.getComputedStyle(block).getPropertyValue("top"));// Get the current top position of the block
+
+    if (characterLeft === blockLeft && blockTop < 500 && blockTop > 300) {
+        block.style.animation = "none"; // Stop the block
     }
-}, 1);
+}
+
+setInterval(checkCollision, 1);
 
 const restartBtn = document.getElementById("restartBtn");
 
@@ -230,20 +238,64 @@ restartBtn.addEventListener("click", resetAnimation);
 show(0);
 
 
+function handleIntersection(entries, observer) {
+  // Go through each observed entry
+  for (var i = 0; i < entries.length; i++) {
+    var entry = entries[i];
 
-
-const observer = new IntersectionObserver((entries, observer) => {
-  entries.forEach(entry => {
+    // If the element is in view
     if (entry.isIntersecting) {
+      // Add the 'show' class to trigger the animation
       entry.target.classList.add('show');
-      observer.unobserve(entry.target); // Only animate once
-    }
-  });
-}, {
-  threshold: 0.3 // Triggers when 30% of the element is visible
-});
 
-// Target all timeline blocks
-document.querySelectorAll('.timeline ul li div').forEach(div => {
-  observer.observe(div);
-});
+      // Stop watching this element (so the animation doesn't repeat)
+      observer.unobserve(entry.target);
+    }
+  }
+}
+
+// Observer options
+const observerOptions = {
+    threshold: 0.3 // Trigger when 30% of the element is visible
+};
+
+// Create the IntersectionObserver instance
+const observer = new IntersectionObserver(handleIntersection, observerOptions);
+
+// Target all the timeline blocks inside list items and observe them
+var timelineBlocks = document.querySelectorAll('.timeline ul li div');
+
+// Go through each block and tell the observer to watch it
+for (var j = 0; j < timelineBlocks.length; j++) {
+  var block = timelineBlocks[j];
+  observer.observe(block);
+}
+
+
+
+const btnFS=document.querySelector("#btnFS");
+const btnWS=document.querySelector("#btnWS");
+btnFS.addEventListener("click",enterFullscreen);
+btnWS.addEventListener("click",exitFullscreen);
+function enterFullscreen() { //must be called by user generated event
+if (document.documentElement.requestFullscreen) {
+document.documentElement.requestFullscreen();
+} else if (document.documentElement.mozRequestFullScreen) { // Firefox
+document.documentElement.mozRequestFullScreen();
+} else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari, and Opera
+document.documentElement.webkitRequestFullscreen();
+} else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+document.documentElement.msRequestFullscreen();
+}
+}
+function exitFullscreen() {
+if (document.exitFullscreen) {
+document.exitFullscreen();
+} else if (document.mozCancelFullScreen) { // Firefox
+document.mozCancelFullScreen();
+} else if (document.webkitExitFullscreen) { // Chrome, Safari, and Opera
+document.webkitExitFullscreen();
+} else if (document.msExitFullscreen) { // IE/Edge
+document.msExitFullscreen();
+}
+}
