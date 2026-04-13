@@ -1,0 +1,16 @@
+{
+    "name": "FYP_GDT",
+    "short_name": "FYP_GDT",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#ffffff",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "TemplateData/favicon.ico",
+            "sizes": "any",
+            "type": "image/x-icon"
+        }
+    ]
+}
