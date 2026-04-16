@@ -56,9 +56,9 @@
       var loaderUrl = buildUrl + "/FYP.loader.js";
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/FYP.data",
-        frameworkUrl: buildUrl + "/FYP.framework.js",
-        codeUrl: buildUrl + "/FYP.wasm",
+        dataUrl: buildUrl + "/FYP.data.br",
+        frameworkUrl: buildUrl + "/FYP.framework.js.br",
+        codeUrl: buildUrl + "/FYP.wasm.br",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "FYP_GDT",
@@ -90,10 +90,10 @@
         meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
         document.getElementsByTagName('head')[0].appendChild(meta);
         document.querySelector("#unity-container").className = "unity-mobile";
-        canvas.style.width = "100%";
-        canvas.style.height = "100%";
-        canvas.style.position = "fixed";
         canvas.className = "unity-mobile";
+        canvas.style.height = "100%";
+        canvas.style.width = "100%";
+        canvas.style.position = "fixed";
 
         // To lower canvas resolution on mobile devices to gain some
         // performance, uncomment the following line:
