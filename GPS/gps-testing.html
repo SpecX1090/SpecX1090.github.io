@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>GPS Tester</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap');
+
+  :root {
+    --bg: #0a0f0d;
+    --surface: #111a15;
+    --border: #1e3028;
+    --accent: #00ff7f;
+    --accent-dim: #00ff7f22;
+    --warn: #ff6b35;
+    --warn-dim: #ff6b3522;
+    --text: #e8f5ee;
+    --muted: #4a6b55;
+    --mono: 'JetBrains Mono', monospace;
+    --display: 'Syne', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px 40px;
+    gap: 20px;
+  }
+
+  header {
+    text-align: center;
+    padding-top: 8px;
+  }
+
+  header h1 {
+    font-family: var(--display);
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+    text-shadow: 0 0 30px #00ff7f55;
+  }
+
+  header p {
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-top: 4px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .status-bar {
+    width: 100%;
+    max-width: 480px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--muted);
+    flex-shrink: 0;
+    transition: background 0.3s, box-shadow 0.3s;
+  }
+
+  .status-dot.active {
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+    animation: pulse 2s infinite;
+  }
+
+  .status-dot.error {
+    background: var(--warn);
+    box-shadow: 0 0 8px var(--warn);
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  #status-text { color: var(--text); }
+
+  .card {
+    width: 100%;
+    max-width: 480px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+  }
+
+  .card-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .coord-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .coord-box {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+
+  .coord-box .label {
+    font-size: 0.6rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .coord-box .value {
+    font-size: 0.85rem;
+    color: var(--accent);
+    font-weight: 700;
+    word-break: break-all;
+  }
+
+  .coord-box.full {
+    grid-column: 1 / -1;
+  }
+
+  .coord-box .value.muted {
+    color: var(--muted);
+  }
+
+  .btn-row {
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  button {
+    width: 100%;
+    padding: 18px;
+    border: none;
+    border-radius: 14px;
+    font-family: var(--display);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.2s, opacity 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  button:active { transform: scale(0.97); }
+  button:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
+
+  #btn-mark {
+    background: var(--accent);
+    color: var(--bg);
+    box-shadow: 0 4px 24px #00ff7f33;
+  }
+
+  #btn-mark:hover:not(:disabled) {
+    box-shadow: 0 4px 32px #00ff7f55;
+  }
+
+  #btn-stop {
+    background: transparent;
+    color: var(--warn);
+    border: 2px solid var(--warn);
+    box-shadow: 0 0 0 0 var(--warn-dim);
+  }
+
+  #btn-stop:not(:disabled) {
+    box-shadow: 0 4px 24px var(--warn-dim);
+  }
+
+  #btn-stop:hover:not(:disabled) {
+    background: var(--warn-dim);
+  }
+
+  .result-card {
+    width: 100%;
+    max-width: 480px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    display: none;
+  }
+
+  .result-card.visible { display: block; }
+
+  .result-card .distance {
+    font-family: var(--display);
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--accent);
+    text-shadow: 0 0 20px #00ff7f44;
+    margin: 8px 0 4px;
+  }
+
+  .result-card .distance-label {
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .result-points {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+
+  .point-box {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+  }
+
+  .point-box .pt-label {
+    font-size: 0.6rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .point-box .pt-val {
+    font-size: 0.72rem;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .log {
+    width: 100%;
+    max-width: 480px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px 18px;
+    max-height: 180px;
+    overflow-y: auto;
+  }
+
+  .log-entry {
+    font-size: 0.68rem;
+    color: var(--muted);
+    padding: 4px 0;
+    border-bottom: 1px solid #1e302820;
+    line-height: 1.4;
+  }
+
+  .log-entry:last-child { border-bottom: none; }
+  .log-entry .ts { color: var(--accent); margin-right: 6px; }
+  .log-entry.warn .ts { color: var(--warn); }
+
+  .accuracy-bar-wrap {
+    margin-top: 10px;
+  }
+
+  .accuracy-bar-bg {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 6px;
+  }
+
+  .accuracy-bar-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.5s;
+    width: 0%;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>GPS Tester</h1>
+  <p>Sentosa Excursion App — Field Tool</p>
+</header>
+
+<div class="status-bar">
+  <div class="status-dot" id="status-dot"></div>
+  <span id="status-text">Requesting GPS permission...</span>
+</div>
+
+<div class="card">
+  <div class="card-label">Live Position</div>
+  <div class="coord-grid">
+    <div class="coord-box">
+      <div class="label">Latitude</div>
+      <div class="value" id="live-lat">—</div>
+    </div>
+    <div class="coord-box">
+      <div class="label">Longitude</div>
+      <div class="value" id="live-lon">—</div>
+    </div>
+    <div class="coord-box">
+      <div class="label">Accuracy</div>
+      <div class="value" id="live-acc">—</div>
+    </div>
+    <div class="coord-box">
+      <div class="label">Last Update</div>
+      <div class="value" id="live-time">—</div>
+    </div>
+  </div>
+  <div class="accuracy-bar-wrap">
+    <div class="card-label">Signal Quality</div>
+    <div class="accuracy-bar-bg">
+      <div class="accuracy-bar-fill" id="acc-bar"></div>
+    </div>
+  </div>
+</div>
+
+<div class="btn-row">
+  <button id="btn-mark" disabled>📍 Mark Point A</button>
+  <button id="btn-stop" disabled>⏹ Mark Point B &amp; Calculate</button>
+</div>
+
+<div class="result-card" id="result-card">
+  <div class="card-label">Result</div>
+  <div class="distance" id="result-distance">—</div>
+  <div class="distance-label">metres between points</div>
+  <div class="result-points">
+    <div class="point-box">
+      <div class="pt-label">Point A</div>
+      <div class="pt-val" id="result-a">—</div>
+    </div>
+    <div class="point-box">
+      <div class="pt-label">Point B</div>
+      <div class="pt-val" id="result-b">—</div>
+    </div>
+  </div>
+</div>
+
+<div class="log" id="log"></div>
+
+<script>
+  let currentPos = null;
+  let pointA = null;
+  const dot = document.getElementById('status-dot');
+  const statusText = document.getElementById('status-text');
+  const btnMark = document.getElementById('btn-mark');
+  const btnStop = document.getElementById('btn-stop');
+  const resultCard = document.getElementById('result-card');
+  const logEl = document.getElementById('log');
+
+  function addLog(msg, warn = false) {
+    const now = new Date().toLocaleTimeString('en-GB', { hour12: false });
+    const entry = document.createElement('div');
+    entry.className = 'log-entry' + (warn ? ' warn' : '');
+    entry.innerHTML = `<span class="ts">${now}</span>${msg}`;
+    logEl.prepend(entry);
+    if (logEl.children.length > 30) logEl.removeChild(logEl.lastChild);
+  }
+
+  function setStatus(msg, state) {
+    statusText.textContent = msg;
+    dot.className = 'status-dot' + (state ? ' ' + state : '');
+  }
+
+  function updateLive(pos) {
+    const { latitude, longitude, accuracy } = pos.coords;
+    currentPos = pos;
+
+    document.getElementById('live-lat').textContent = latitude.toFixed(7);
+    document.getElementById('live-lon').textContent = longitude.toFixed(7);
+    document.getElementById('live-acc').textContent = accuracy.toFixed(1) + ' m';
+    document.getElementById('live-time').textContent = new Date().toLocaleTimeString('en-GB', { hour12: false });
+
+    const quality = Math.max(0, Math.min(100, 100 - (accuracy - 3) * 3));
+    document.getElementById('acc-bar').style.width = quality + '%';
+    document.getElementById('acc-bar').style.background = accuracy < 10 ? 'var(--accent)' : accuracy < 30 ? '#ffcc00' : 'var(--warn)';
+
+    setStatus(`Tracking — ±${accuracy.toFixed(1)}m accuracy`, 'active');
+    btnMark.disabled = false;
+  }
+
+  function onError(err) {
+    setStatus('GPS error: ' + err.message, 'error');
+    addLog('GPS error: ' + err.message, true);
+  }
+
+  if ('geolocation' in navigator) {
+    navigator.geolocation.watchPosition(updateLive, onError, {
+      enableHighAccuracy: true,
+      maximumAge: 0,
+      timeout: 10000
+    });
+    addLog('GPS watch started');
+  } else {
+    setStatus('Geolocation not supported', 'error');
+    addLog('Geolocation not supported on this device', true);
+  }
+
+  btnMark.addEventListener('click', () => {
+    if (!currentPos) return;
+    const { latitude, longitude, accuracy } = currentPos.coords;
+    pointA = { latitude, longitude, accuracy };
+    btnMark.textContent = `✅ Point A Marked`;
+    btnMark.disabled = true;
+    btnStop.disabled = false;
+    addLog(`Point A: ${latitude.toFixed(7)}, ${longitude.toFixed(7)} (±${accuracy.toFixed(1)}m)`);
+    resultCard.classList.remove('visible');
+  });
+
+  btnStop.addEventListener('click', () => {
+    if (!currentPos || !pointA) return;
+    const { latitude, longitude, accuracy } = currentPos.coords;
+    const pointB = { latitude, longitude, accuracy };
+    const dist = haversine(pointA.latitude, pointA.longitude, pointB.latitude, pointB.longitude);
+
+    document.getElementById('result-distance').textContent = dist.toFixed(2);
+    document.getElementById('result-a').textContent =
+      `${pointA.latitude.toFixed(7)}\n${pointA.longitude.toFixed(7)}\n±${pointA.accuracy.toFixed(1)}m`;
+    document.getElementById('result-b').textContent =
+      `${pointB.latitude.toFixed(7)}\n${pointB.longitude.toFixed(7)}\n±${pointB.accuracy.toFixed(1)}m`;
+
+    resultCard.classList.add('visible');
+    addLog(`Point B: ${latitude.toFixed(7)}, ${longitude.toFixed(7)} (±${accuracy.toFixed(1)}m)`);
+    addLog(`Distance A→B: ${dist.toFixed(2)}m`);
+
+    btnMark.textContent = '📍 Mark Point A';
+    btnMark.disabled = false;
+    btnStop.disabled = true;
+    pointA = null;
+  });
+
+  function haversine(lat1, lon1, lat2, lon2) {
+    const R = 6371000;
+    const toRad = d => d * Math.PI / 180;
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a = Math.sin(dLat / 2) ** 2 +
+              Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  }
+</script>
+</body>
+</html>
